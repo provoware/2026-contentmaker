@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contentmaker – Dashboard</title>
+    <link rel="stylesheet" href="./styles/base.css" />
+  </head>
+  <body>
+    <main aria-labelledby="app-title">
+      <header>
+        <p class="small-label">Barrierefrei, farbstark und laienfreundlich</p>
+        <h1 id="app-title">Contentmaker Steuerzentrale</h1>
+        <div class="summary-box" role="status" aria-live="polite">
+          <p>
+            Wähle ein Farb-Theme, stelle die Schriftgröße ein und invertiere bei Bedarf die
+            <strong>Schriftfarbe</strong> über den Button. Alle Änderungen bleiben auf den Text
+            beschränkt, Hintergründe bleiben stabil.
+          </p>
+        </div>
+      </header>
+
+      <section aria-labelledby="controls-heading">
+        <h2 id="controls-heading">Bedienelemente</h2>
+        <div class="controls">
+          <div>
+            <label for="theme-select">Farb-Theme wählen</label>
+            <select id="theme-select" name="theme-select" aria-describedby="theme-help"></select>
+            <p id="theme-help" class="small-label">
+              Alle Themes sind kontrastgeprüft. Die aktive Auswahl wird sofort übernommen.
+            </p>
+          </div>
+
+          <div>
+            <label for="font-slider">Schriftgröße anpassen</label>
+            <input
+              id="font-slider"
+              type="range"
+              min="90"
+              max="125"
+              step="5"
+              value="100"
+              aria-valuetext="100 %"
+            />
+            <p class="small-label">Feineinstellung in 5-%-Schritten.</p>
+          </div>
+
+          <div>
+            <button id="invert-toggle" type="button" class="primary" aria-pressed="false">
+              Schriftfarben invertieren
+            </button>
+            <p class="small-label">
+              Wirkung nur auf Text, Hintergründe bleiben unverändert. Ein weiterer Klick macht die
+              Änderung rückgängig.
+            </p>
+          </div>
+
+          <div>
+            <label for="debug-toggle">Debug- und Logging-Modus</label>
+            <button id="debug-toggle" type="button" aria-pressed="false">Debugging aus</button>
+            <p class="small-label">Schaltet ausführliches Feedback im Statusprotokoll.</p>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="status-heading">
+        <h2 id="status-heading">Status und Live-Feedback</h2>
+        <ul id="status-log" aria-live="polite" aria-label="Statusprotokoll"></ul>
+      </section>
+    </main>
+
+    <script type="module" src="./scripts/app.js"></script>
+  </body>
+</html>
