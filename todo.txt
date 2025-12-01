@@ -1,4 +1,7 @@
 # Offene Aufgaben
+- [x] Basis-UI mit kontrastgeprüften Farb-Themes, Schriftgrößenregler und nur die Schrift betreffendem Invertieren umgesetzt.
+- [x] Automatischer Startcheck (Abhängigkeiten, Ordner) mit Nutzerfeedback hinterlegt.
+- [x] Erste Test- und Format-Pipeline (Lint, Prettier, Unit-Tests) ergänzt.
 - [ ] Informationsarchitektur und Raster für linke/rechte Sidebar sowie den dreispaltigen Arbeitsbereich finalisieren (Templates, Archiv, Vorschau) – inkl. klarer Fokusreihenfolge für Barrierefreiheit.
 - [ ] Datenmodelle für Profile, Archiv, Logs in JSON/TXT definieren; Ablagepfade strikt trennen (Systemlogik vs. Konfiguration vs. Nutzerdaten) und dokumentieren.
 - [ ] Farb-Themes mit geprüftem Kontrast entwickeln, Schriftgrößen per Regler anpassbar machen, responsive Regeln und Fokus-Styles festschreiben.
