@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=2026 ContentMaker — ClickStart
+Comment=Install dependencies, validate and launch the app (Linux)
+Exec=bash -c 'cd "%k" || true; ./start.sh'
+Icon=utilities-terminal
+Terminal=true
+Categories=Development;Utility;
+StartupNotify=true
