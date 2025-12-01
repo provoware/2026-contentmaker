@@ -224,6 +224,16 @@ li[data-level="debug"] .log-badge {
 li[data-level="status"] .log-badge {
   background: color-mix(in srgb, var(--color-status) 80%, transparent);
   color: #0b1120;
+  padding-left: 1rem;
+  margin: 0;
+  max-height: 160px;
+  overflow: auto;
+}
+
+#status-log li {
+  margin-bottom: 0.25rem;
+  color: var(--color-muted);
+  font-size: calc(0.95rem * var(--font-scale));
 }
 
 .small-label {

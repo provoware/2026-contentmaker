@@ -27,6 +27,7 @@ export function createLogger(listElement) {
     message.textContent = text;
 
     item.append(badge, time, message);
+    item.textContent = text;
     list.prepend(item);
 
     while (list.childElementCount > MAX_LOG_ITEMS) {
