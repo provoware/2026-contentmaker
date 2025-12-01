@@ -1,17 +1,13 @@
 # Offene Aufgaben
+- [x] Basis-UI mit kontrastgeprüften Farb-Themes, Schriftgrößenregler und nur die Schrift betreffendem Invertieren umgesetzt.
+- [x] Automatischer Startcheck (Abhängigkeiten, Ordner) mit Nutzerfeedback hinterlegt.
+- [x] Erste Test- und Format-Pipeline (Lint, Prettier, Unit-Tests) ergänzt.
+- [x] Debugging-/Logging-Fußzeile mit farbkodiertem Protokoll (Zeit, Level-Badges) umgesetzt.
 - [ ] Informationsarchitektur und Raster für linke/rechte Sidebar sowie den dreispaltigen Arbeitsbereich finalisieren (Templates, Archiv, Vorschau) – inkl. klarer Fokusreihenfolge für Barrierefreiheit.
 - [ ] Datenmodelle für Profile, Archiv, Logs in JSON/TXT definieren; Ablagepfade strikt trennen (Systemlogik vs. Konfiguration vs. Nutzerdaten) und dokumentieren.
-- [ ] Farb-Themes mit geprüftem Kontrast entwickeln, Schriftgrößen per Regler anpassbar machen, responsive Regeln und Fokus-Styles festschreiben.
-- [ ] Startroutine bauen: Abhängigkeitsprüfung und -installation, Aufteilung der Ordner (System/Config/Daten), automatische Tests/Linting ausführen, Fortschritt und Fehler in einfacher Sprache anzeigen.
+- [ ] Farb-Themes mit geprüftem Kontrast ausbauen, Schriftgrößen per Regler anpassbar halten, responsive Regeln und Fokus-Stylen festschreiben.
+- [ ] Startroutine schärfen: Abhängigkeitsprüfung und -installation, Aufteilung der Ordner (System/Config/Daten), automatische Tests/Linting ausführen, Fortschritt und Fehler in einfacher Sprache anzeigen.
 - [ ] Genre-Zufallsgenerator planen (Mengenmodi 4–20, Duplikate vermeiden, Log schreiben, Zwischenablage und Songfeld direkt füllen, Button „in Song übernehmen“).
 - [ ] Autosave/Backup-Konzept (alle 5 Minuten, bei Logout) mit Statusbalken, Zeitstempel, manuellem Restore-Knopf und Validierung der gespeicherten Dateien ausarbeiten.
-- [ ] Test- und Linting-Pipeline fertigstellen (Funktions-, Barrierefreiheits-, Format- und Stilprüfungen); Debug/Logging-Modus mit Umschalter und gefilterten Logs implementieren.
+- [ ] Test- und Linting-Pipeline fertigstellen (Funktions-, Barrierefreiheits-, Format- und Stilprüfungen); Debug/Logging-Modus mit Umschalter und gefilterten Logs weiter vertiefen.
 - [ ] Hilfe-/Tooltip-System in einfacher Sprache liefern, mit Beispiel-Eingaben und Erklärungen zu Fachbegriffen; Sichtbarkeit und Tastaturbedienung sicherstellen.
-- [ ] Informationsarchitektur für linke/rechte Sidebar und dreispaltigen Arbeitsbereich festlegen (Templates, Archiv, Vorschau).
-- [ ] Datenmodelle für Profile, Archiv, Logs in JSON/TXT definieren und Ablagepfade trennen (Systemlogik vs. Nutzerdaten vs. Konfiguration).
-- [ ] Farb-Themes mit hohem Kontrast entwerfen, Schriftgrößen anpassbar machen, responsive Regeln festlegen.
-- [ ] Startroutine erstellen, die Abhängigkeiten automatisch installiert und Fortschritt/Feedback anzeigt.
-- [ ] Genre-Zufallsgenerator konzipieren (Mengenmodi 4–20, Duplikate vermeiden, Logs schreiben, Zwischenablage/Songfeld füllen).
-- [ ] Autosave/Backup-Strategie (alle 5 Minuten, bei Logout) inkl. Statusanzeige und Zeitstempel ausarbeiten.
-- [ ] Test- und Linting-Setup aufsetzen (Funktions-, Qualitäts- und Formatprüfungen) und Debug/Logging-Modus vorbereiten.
-- [ ] Hilfe- und Tooltip-Konzept in einfacher Sprache mit Beispielen entwickeln.
