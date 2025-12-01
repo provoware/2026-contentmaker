@@ -7,3 +7,11 @@
 - [ ] Autosave/Backup-Konzept (alle 5 Minuten, bei Logout) mit Statusbalken, Zeitstempel, manuellem Restore-Knopf und Validierung der gespeicherten Dateien ausarbeiten.
 - [ ] Test- und Linting-Pipeline fertigstellen (Funktions-, Barrierefreiheits-, Format- und Stilprüfungen); Debug/Logging-Modus mit Umschalter und gefilterten Logs implementieren.
 - [ ] Hilfe-/Tooltip-System in einfacher Sprache liefern, mit Beispiel-Eingaben und Erklärungen zu Fachbegriffen; Sichtbarkeit und Tastaturbedienung sicherstellen.
+- [ ] Informationsarchitektur für linke/rechte Sidebar und dreispaltigen Arbeitsbereich festlegen (Templates, Archiv, Vorschau).
+- [ ] Datenmodelle für Profile, Archiv, Logs in JSON/TXT definieren und Ablagepfade trennen (Systemlogik vs. Nutzerdaten vs. Konfiguration).
+- [ ] Farb-Themes mit hohem Kontrast entwerfen, Schriftgrößen anpassbar machen, responsive Regeln festlegen.
+- [ ] Startroutine erstellen, die Abhängigkeiten automatisch installiert und Fortschritt/Feedback anzeigt.
+- [ ] Genre-Zufallsgenerator konzipieren (Mengenmodi 4–20, Duplikate vermeiden, Logs schreiben, Zwischenablage/Songfeld füllen).
+- [ ] Autosave/Backup-Strategie (alle 5 Minuten, bei Logout) inkl. Statusanzeige und Zeitstempel ausarbeiten.
+- [ ] Test- und Linting-Setup aufsetzen (Funktions-, Qualitäts- und Formatprüfungen) und Debug/Logging-Modus vorbereiten.
+- [ ] Hilfe- und Tooltip-Konzept in einfacher Sprache mit Beispielen entwickeln.
