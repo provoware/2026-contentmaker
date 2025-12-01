@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Songtexter-Tool 2026 PROVOWARE Version</title>
     <title>Contentmaker – Dashboard</title>
     <link rel="stylesheet" href="./styles/base.css" />
   </head>
@@ -10,6 +11,7 @@
     <main aria-labelledby="app-title">
       <header>
         <p class="small-label">Barrierefrei, farbstark und laienfreundlich</p>
+        <h1 id="app-title">Songtexter-Tool 2026 PROVOWARE Version</h1>
         <h1 id="app-title">Contentmaker Steuerzentrale</h1>
         <div class="summary-box" role="status" aria-live="polite">
           <p>
@@ -65,6 +67,27 @@
 
       <section aria-labelledby="status-heading">
         <h2 id="status-heading">Status und Live-Feedback</h2>
+        <p class="small-label">
+          Alle Eingaben werden geprüft und mit klaren Rückmeldungen versehen. Für detaillierte
+          Ereignisse siehe das Debugging-Protokoll unten.
+        </p>
+      </section>
+    </main>
+
+    <footer aria-labelledby="debugging-heading" class="app-footer">
+      <div class="footer-inner">
+        <div>
+          <p class="small-label">Fortlaufendes Protokoll</p>
+          <h2 id="debugging-heading">Debugging &amp; Logging</h2>
+          <p>
+            Farbunterstützte Ereignisanzeige mit Uhrzeit. Info (Grün), Warnung (Gelb), Fehler (Rot),
+            Debug (Blau) und Status (Neutral) helfen bei der schnellen Einordnung.
+          </p>
+        </div>
+        <ul id="status-log" aria-live="polite" aria-label="Debugging- und Logging-Protokoll"></ul>
+      </div>
+    </footer>
+
         <ul id="status-log" aria-live="polite" aria-label="Statusprotokoll"></ul>
       </section>
     </main>
