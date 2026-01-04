@@ -3,15 +3,19 @@ import { applyTheme, getDefaultThemeId, populateThemeSelect } from "./themeManag
 import { setFontScale, toggleTextInvert } from "./accessibility.js";
 
 function bindThemeSelect(select, logger) {
+  if (!(select instanceof HTMLSelectElement)) {
+    logger?.error("Theme-Auswahl fehlt oder ist ungültig.");
+    return false;
+  }
   if (!populateThemeSelect(select)) {
     logger.error("Themes konnten nicht geladen werden.");
-    return;
+    return false;
   }
 
   const defaultId = getDefaultThemeId();
   select.value = defaultId;
-  applyTheme(defaultId);
-  logger.info("Start-Theme angewendet.");
+  const applied = applyTheme(defaultId);
+  logger[applied ? "info" : "warn"]("Start-Theme angewendet.");
 
   select.addEventListener("change", (event) => {
     const nextId = event.target?.value;
@@ -22,9 +26,14 @@ function bindThemeSelect(select, logger) {
       logger.warn("Theme konnte nicht angewendet werden.");
     }
   });
+  return true;
 }
 
 function bindFontSlider(slider, logger) {
+  if (!(slider instanceof HTMLInputElement)) {
+    logger?.error("Schriftgrößen-Regler fehlt oder ist ungültig.");
+    return false;
+  }
   const initialApplied = setFontScale(slider);
   if (initialApplied) {
     logger.info("Schriftgröße initial gesetzt.");
@@ -35,9 +44,14 @@ function bindFontSlider(slider, logger) {
     const success = setFontScale(slider);
     logger.debug(success ? "Schriftgröße aktualisiert." : "Ungültiger Schriftwert.");
   });
+  return true;
 }
 
 function bindInvertButton(button, logger) {
+  if (!(button instanceof HTMLButtonElement)) {
+    logger?.error("Invertieren-Schalter fehlt oder ist ungültig.");
+    return false;
+  }
   const updateState = (isActive) => {
     button.setAttribute("aria-pressed", String(isActive));
     button.textContent = isActive ? "Schriftfarben normalisieren" : "Schriftfarben invertieren";
@@ -51,9 +65,14 @@ function bindInvertButton(button, logger) {
 
   button.addEventListener("click", toggle);
   updateState(false);
+  return true;
 }
 
 function bindDebugToggle(button, logger) {
+  if (!(button instanceof HTMLButtonElement)) {
+    logger?.error("Debug-Schalter fehlt oder ist ungültig.");
+    return false;
+  }
   const update = (enabled) => {
     button.setAttribute("aria-pressed", String(enabled));
     button.textContent = enabled ? "Debugging an" : "Debugging aus";
@@ -65,6 +84,7 @@ function bindDebugToggle(button, logger) {
     update(enabled);
   });
   update(false);
+  return true;
 }
 
 function init() {
@@ -77,11 +97,18 @@ function init() {
   const invertToggle = document.querySelector("#invert-toggle");
   const debugToggle = document.querySelector("#debug-toggle");
 
-  bindThemeSelect(select, logger);
-  bindFontSlider(fontSlider, logger);
-  bindInvertButton(invertToggle, logger);
-  bindDebugToggle(debugToggle, logger);
-  logger.info("Alle Steuerelemente aktiv.");
+  const results = [
+    bindThemeSelect(select, logger),
+    bindFontSlider(fontSlider, logger),
+    bindInvertButton(invertToggle, logger),
+    bindDebugToggle(debugToggle, logger)
+  ];
+
+  if (results.every(Boolean)) {
+    logger.info("Alle Steuerelemente aktiv.");
+  } else {
+    logger.warn("Einige Steuerelemente konnten nicht gebunden werden.");
+  }
 }
 
 if (document.readyState === "loading") {
