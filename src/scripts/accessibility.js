@@ -7,6 +7,7 @@ export function setFontScale(rangeInput, target = document.documentElement) {
   const clamped = Math.min(125, Math.max(90, numericValue));
   const scale = (clamped / 100).toFixed(2);
   target.style.setProperty("--font-scale", scale);
+  rangeInput.setAttribute("aria-valuenow", String(clamped));
   rangeInput.setAttribute("aria-valuetext", `${clamped} %`);
   return true;
 }

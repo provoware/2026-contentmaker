@@ -247,3 +247,19 @@ li[data-level="status"] .log-badge {
     transition-duration: 0.001ms !important;
   }
 }
+
+@media (prefers-contrast: more) {
+  :root {
+    --color-border: var(--color-accent);
+  }
+
+  button,
+  select,
+  input[type="range"] {
+    border-width: 2px;
+  }
+
+  .log-badge {
+    border: 2px solid currentColor;
+  }
+}

@@ -4,8 +4,8 @@
 - [x] Erste Test- und Format-Pipeline (Lint, Prettier, Unit-Tests) ergänzt.
 - [x] Debugging-/Logging-Fußzeile mit farbkodiertem Protokoll (Zeit, Level-Badges) umgesetzt.
 - [ ] Informationsarchitektur und Raster für linke/rechte Sidebar sowie den dreispaltigen Arbeitsbereich finalisieren (Templates, Archiv, Vorschau) – inkl. klarer Fokusreihenfolge für Barrierefreiheit.
-- [ ] Datenmodelle für Profile, Archiv, Logs in JSON/TXT definieren; Ablagepfade strikt trennen (Systemlogik vs. Konfiguration vs. Nutzerdaten) und dokumentieren.
-- [ ] Farb-Themes mit geprüftem Kontrast ausbauen, Schriftgrößen per Regler anpassbar halten, responsive Regeln und Fokus-Stylen festschreiben.
+- [x] Datenmodelle für Profile, Archiv, Logs in JSON/TXT definieren; Ablagepfade strikt trennen (Systemlogik vs. Konfiguration vs. Nutzerdaten) und dokumentieren.
+- [x] Farb-Themes mit geprüftem Kontrast ausbauen, Schriftgrößen per Regler anpassbar halten, responsive Regeln und Fokus-Stylen festschreiben.
 - [x] Startroutine schärfen: Abhängigkeitsprüfung und -installation, Ordner automatisch anlegen (System/Config/Daten), automatische Tests/Linting ausführen, Fortschritt und Fehler in einfacher Sprache anzeigen.
 - [ ] Genre-Zufallsgenerator planen (Mengenmodi 4–20, Duplikate vermeiden, Log schreiben, Zwischenablage und Songfeld direkt füllen, Button „in Song übernehmen“).
 - [ ] Autosave/Backup-Konzept (alle 5 Minuten, bei Logout) mit Statusbalken, Zeitstempel, manuellem Restore-Knopf und Validierung der gespeicherten Dateien ausarbeiten.
