@@ -79,6 +79,12 @@ header h1 {
   font-size: calc(1.8rem * var(--font-scale));
 }
 
+.subtitle {
+  margin: 0 0 1rem;
+  font-size: calc(1.1rem * var(--font-scale));
+  color: var(--color-muted);
+}
+
 p,
 label,
 li {
@@ -173,10 +179,12 @@ button.primary {
   color: var(--color-text-active);
   font-size: calc(0.95rem * var(--font-scale));
   border-bottom: 1px solid color-mix(in srgb, var(--color-border) 20%, transparent);
+  margin-bottom: 0.25rem;
 }
 
 #status-log li:last-child {
   border-bottom: none;
+  margin-bottom: 0;
 }
 
 .log-badge {
@@ -224,16 +232,6 @@ li[data-level="debug"] .log-badge {
 li[data-level="status"] .log-badge {
   background: color-mix(in srgb, var(--color-status) 80%, transparent);
   color: #0b1120;
-  padding-left: 1rem;
-  margin: 0;
-  max-height: 160px;
-  overflow: auto;
-}
-
-#status-log li {
-  margin-bottom: 0.25rem;
-  color: var(--color-muted);
-  font-size: calc(0.95rem * var(--font-scale));
 }
 
 .small-label {

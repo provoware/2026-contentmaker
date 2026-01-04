@@ -1,9 +1,22 @@
 import { getThemeById, themes } from "../../config/themes.js";
 
+const REQUIRED_THEME_KEYS = [
+  "background",
+  "surface",
+  "text",
+  "textInvert",
+  "accent",
+  "border",
+  "muted"
+];
+
 function isValidTheme(theme) {
   if (!theme || typeof theme !== "object") return false;
-  const requiredKeys = ["background", "surface", "text", "textInvert", "accent", "border", "muted"];
-  return requiredKeys.every((key) => typeof theme.colors?.[key] === "string");
+  return REQUIRED_THEME_KEYS.every((key) => typeof theme.colors?.[key] === "string");
+}
+
+export function getValidThemes() {
+  return themes.filter((theme) => isValidTheme(theme));
 }
 
 export function applyTheme(themeId, target = document.documentElement) {
@@ -22,7 +35,10 @@ export function populateThemeSelect(selectElement) {
   if (!(selectElement instanceof HTMLSelectElement)) return false;
   selectElement.replaceChildren();
 
-  themes.forEach((theme) => {
+  const validThemes = getValidThemes();
+  if (validThemes.length === 0) return false;
+
+  validThemes.forEach((theme) => {
     const option = document.createElement("option");
     option.value = theme.id;
     option.textContent = `${theme.label} – ${theme.description}`;
@@ -30,7 +46,7 @@ export function populateThemeSelect(selectElement) {
     selectElement.appendChild(option);
   });
 
-  return selectElement.childElementCount === themes.length;
+  return selectElement.childElementCount === validThemes.length;
 }
 
 export function getDefaultThemeId() {

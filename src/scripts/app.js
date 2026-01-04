@@ -4,11 +4,11 @@ import { setFontScale, toggleTextInvert } from "./accessibility.js";
 
 function bindThemeSelect(select, logger) {
   if (!(select instanceof HTMLSelectElement)) {
-    logger?.error("Theme-Auswahl fehlt oder ist ungültig.");
+    logger?.error("Theme-Auswahl (Farbschema) fehlt oder ist ungültig.");
     return false;
   }
   if (!populateThemeSelect(select)) {
-    logger.error("Themes konnten nicht geladen werden.");
+    logger.error("Themes konnten nicht geladen werden. Bitte Konfiguration prüfen.");
     return false;
   }
 

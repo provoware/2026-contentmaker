@@ -1,4 +1,9 @@
-import { applyTheme, populateThemeSelect, getDefaultThemeId } from "../src/scripts/themeManager.js";
+import {
+  applyTheme,
+  populateThemeSelect,
+  getDefaultThemeId,
+  getValidThemes
+} from "../src/scripts/themeManager.js";
 import { themes } from "../config/themes.js";
 
 describe("applyTheme", () => {
@@ -21,8 +26,9 @@ describe("populateThemeSelect", () => {
   test("erstellt optionen", () => {
     const select = document.createElement("select");
     const success = populateThemeSelect(select);
+    const validThemes = getValidThemes();
     expect(success).toBe(true);
-    expect(select.children).toHaveLength(themes.length);
+    expect(select.children).toHaveLength(validThemes.length);
   });
 });
 
