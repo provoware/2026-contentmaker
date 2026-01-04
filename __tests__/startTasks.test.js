@@ -29,4 +29,20 @@ describe("start tasks", () => {
     expect(existsSync(path.join(projectRoot, "data"))).toBe(true);
     rmSync(projectRoot, { recursive: true, force: true });
   });
+
+  test("ensureDirectories blockiert pfade außerhalb des projekts", () => {
+    const projectRoot = createTempProject();
+    const outsidePath = path.resolve(projectRoot, "..", "contentmaker-outside");
+    const results = ensureDirectories(projectRoot, ["../contentmaker-outside"]);
+    expect(results).toEqual([
+      {
+        dir: "../contentmaker-outside",
+        created: false,
+        exists: false,
+        error: "Ordner liegt außerhalb des Projekts."
+      }
+    ]);
+    expect(existsSync(outsidePath)).toBe(false);
+    rmSync(projectRoot, { recursive: true, force: true });
+  });
 });

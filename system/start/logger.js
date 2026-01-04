@@ -3,24 +3,63 @@ import path from "node:path";
 
 function ensureLogDir(logDir) {
   if (typeof logDir !== "string" || logDir.trim().length === 0) return false;
-  mkdirSync(logDir, { recursive: true });
-  return true;
+  try {
+    mkdirSync(logDir, { recursive: true });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function writeLine(filePath, line) {
   if (typeof filePath !== "string" || filePath.trim().length === 0) return false;
-  appendFileSync(filePath, line);
-  return true;
+  try {
+    appendFileSync(filePath, line);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function isPathWithin(root, target) {
+  const relative = path.relative(root, target);
+  if (relative === "") return true;
+  return !relative.startsWith("..") && !path.isAbsolute(relative);
+}
+
+function resolveLogDir(projectRoot, logDir) {
+  const resolvedRoot = path.resolve(projectRoot);
+  const safeDir = typeof logDir === "string" && logDir.trim().length > 0 ? logDir : "logs";
+  const resolvedDir = path.resolve(resolvedRoot, safeDir);
+  if (!isPathWithin(resolvedRoot, resolvedDir)) {
+    return path.join(resolvedRoot, "logs");
+  }
+  return resolvedDir;
+}
+
+function resolveLogFileName(fileName, fallback) {
+  if (typeof fileName !== "string" || fileName.trim().length === 0) return fallback;
+  return path.basename(fileName.trim());
 }
 
 export function createStartLogger({ logDir, logFile, reportFile, projectRoot }) {
-  const resolvedLogDir = path.resolve(projectRoot, logDir);
-  const resolvedLogFile = path.resolve(resolvedLogDir, logFile);
-  const resolvedReportFile = path.resolve(resolvedLogDir, reportFile);
+  const resolvedRoot = path.resolve(projectRoot);
+  const resolvedLogDir = resolveLogDir(resolvedRoot, logDir);
+  const resolvedLogFile = path.join(resolvedLogDir, resolveLogFileName(logFile, "start.log"));
+  const resolvedReportFile = path.join(
+    resolvedLogDir,
+    resolveLogFileName(reportFile, "start-report.md")
+  );
 
-  ensureLogDir(resolvedLogDir);
-  writeFileSync(resolvedLogFile, `Start-Log ${new Date().toISOString()}\n\n`);
-  writeFileSync(resolvedReportFile, `# Startreport\nZeit: ${new Date().toISOString()}\n\n`);
+  const ready = ensureLogDir(resolvedLogDir);
+  if (ready) {
+    try {
+      writeFileSync(resolvedLogFile, `Start-Log ${new Date().toISOString()}\n\n`);
+      writeFileSync(resolvedReportFile, `# Startreport\nZeit: ${new Date().toISOString()}\n\n`);
+    } catch {
+      // no-op, logging falls back to stdout
+    }
+  }
 
   const log = (message) => {
     const safeMessage =
@@ -29,7 +68,9 @@ export function createStartLogger({ logDir, logFile, reportFile, projectRoot }) 
         : "Unbekannte Meldung";
     const line = `[${new Date().toLocaleTimeString("de-DE")}] ${safeMessage}\n`;
     process.stdout.write(line);
-    writeLine(resolvedLogFile, line);
+    if (ready) {
+      writeLine(resolvedLogFile, line);
+    }
     return true;
   };
 
@@ -38,7 +79,9 @@ export function createStartLogger({ logDir, logFile, reportFile, projectRoot }) 
       typeof section === "string" && section.trim().length > 0 ? section.trim() : "Bericht";
     const safeContent =
       typeof content === "string" && content.trim().length > 0 ? content.trim() : "Keine Details.";
-    writeLine(resolvedReportFile, `## ${safeSection}\n\n${safeContent}\n\n`);
+    if (ready) {
+      writeLine(resolvedReportFile, `## ${safeSection}\n\n${safeContent}\n\n`);
+    }
     return true;
   };
 

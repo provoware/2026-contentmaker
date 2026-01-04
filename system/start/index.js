@@ -14,11 +14,15 @@ import {
 import { checkDataFiles, ensureDataFiles } from "./dataFiles.js";
 
 export async function runStart({ projectRoot = process.cwd() } = {}) {
+  const safeProjectRoot =
+    typeof projectRoot === "string" && projectRoot.trim().length > 0
+      ? path.resolve(projectRoot)
+      : process.cwd();
   const logger = createStartLogger({
     logDir: startConfig.logDir,
     logFile: startConfig.logFile,
     reportFile: startConfig.reportFile,
-    projectRoot
+    projectRoot: safeProjectRoot
   });
 
   logger.log("Startroutine startet. Bitte kurz warten.");
@@ -41,7 +45,7 @@ export async function runStart({ projectRoot = process.cwd() } = {}) {
     logger.report("Node", `OK: ${nodeInfo.raw}`);
   }
 
-  const dirChecks = checkDirectories(projectRoot, startConfig.requiredDirs);
+  const dirChecks = checkDirectories(safeProjectRoot, startConfig.requiredDirs);
   dirChecks.forEach((check) => {
     logger.log(
       check.exists ? `Ordner ok: ${check.dir}` : `Ordner fehlt: ${check.dir || "unbekannt"}`
@@ -54,7 +58,7 @@ export async function runStart({ projectRoot = process.cwd() } = {}) {
       .join("\n")
   );
 
-  const dirResults = ensureDirectories(projectRoot, startConfig.requiredDirs);
+  const dirResults = ensureDirectories(safeProjectRoot, startConfig.requiredDirs);
   dirResults.forEach((result) => {
     if (!result.dir) return;
     if (result.created) {
@@ -75,7 +79,7 @@ export async function runStart({ projectRoot = process.cwd() } = {}) {
   );
 
   const dataEntries = getDataFileEntries();
-  const dataChecks = checkDataFiles(projectRoot, dataEntries);
+  const dataChecks = checkDataFiles(safeProjectRoot, dataEntries);
   dataChecks.forEach((check) => {
     if (!check.path) {
       logger.log("Datenmodell-Eintrag ist ungültig.");
@@ -95,7 +99,7 @@ export async function runStart({ projectRoot = process.cwd() } = {}) {
       .join("\n")
   );
 
-  const dataResults = ensureDataFiles(projectRoot, dataEntries);
+  const dataResults = ensureDataFiles(safeProjectRoot, dataEntries);
   dataResults.forEach((result) => {
     if (!result.path) return;
     if (result.created) {
@@ -115,17 +119,17 @@ export async function runStart({ projectRoot = process.cwd() } = {}) {
       .join("\n")
   );
 
-  const pkgPath = path.join(projectRoot, "package.json");
+  const pkgPath = path.join(safeProjectRoot, "package.json");
   if (!existsSync(pkgPath)) {
     logger.log("package.json fehlt. Installation und Tests werden übersprungen.");
     logger.report("Abhängigkeiten", "Übersprungen: package.json fehlt.");
     return { ok: false, logger };
   }
 
-  if (!hasNodeModules(projectRoot)) {
+  if (!hasNodeModules(safeProjectRoot)) {
     logger.log("Abhängigkeiten fehlen. Installation wird gestartet.");
     const installResult = await installDependencies(
-      projectRoot,
+      safeProjectRoot,
       startConfig.installCommand,
       logger
     );
@@ -144,7 +148,7 @@ export async function runStart({ projectRoot = process.cwd() } = {}) {
 
   if (startConfig.runTests) {
     logger.log("Starte automatische Tests (Lint, Format, Unit).");
-    const testResult = await runTests(projectRoot, logger);
+    const testResult = await runTests(safeProjectRoot, logger);
     logger.report(
       "Tests",
       `Exit-Code: ${testResult.code}\n${testResult.stdout}\n${testResult.stderr}`
