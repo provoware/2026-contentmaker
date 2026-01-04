@@ -7,6 +7,17 @@ function normalizeString(value, fallback) {
   return fallback;
 }
 
+function resolveProjectRoot(projectRoot) {
+  const safeRoot = normalizeString(projectRoot, "");
+  return safeRoot ? path.resolve(safeRoot) : process.cwd();
+}
+
+function isPathWithin(root, target) {
+  const relative = path.relative(root, target);
+  if (relative === "") return true;
+  return !relative.startsWith("..") && !path.isAbsolute(relative);
+}
+
 function resolveLogger(logger) {
   if (logger && typeof logger.log === "function") return logger;
   return { log: () => false };
@@ -69,19 +80,38 @@ export function checkNodeVersion(minMajor, recommendedMajor) {
 
 export function checkDirectories(projectRoot, requiredDirs) {
   const safeDirs = Array.isArray(requiredDirs) ? requiredDirs : [];
+  const root = resolveProjectRoot(projectRoot);
   return safeDirs.map((dir) => {
     const dirName = normalizeString(dir, "");
-    const exists = dirName ? existsSync(path.join(projectRoot, dirName)) : false;
+    if (!dirName) {
+      return { dir: dirName, exists: false, error: "Ungültiger Ordnername." };
+    }
+    const fullPath = path.resolve(root, dirName);
+    if (!isPathWithin(root, fullPath)) {
+      return { dir: dirName, exists: false, error: "Ordner liegt außerhalb des Projekts." };
+    }
+    const exists = existsSync(fullPath);
     return { dir: dirName, exists };
   });
 }
 
 export function ensureDirectories(projectRoot, requiredDirs) {
   const safeDirs = Array.isArray(requiredDirs) ? requiredDirs : [];
+  const root = resolveProjectRoot(projectRoot);
   return safeDirs.map((dir) => {
     const dirName = normalizeString(dir, "");
-    if (!dirName) return { dir: "", created: false, exists: false };
-    const fullPath = path.join(projectRoot, dirName);
+    if (!dirName) {
+      return { dir: dirName, created: false, exists: false, error: "Ungültiger Ordnername." };
+    }
+    const fullPath = path.resolve(root, dirName);
+    if (!isPathWithin(root, fullPath)) {
+      return {
+        dir: dirName,
+        created: false,
+        exists: false,
+        error: "Ordner liegt außerhalb des Projekts."
+      };
+    }
     const exists = existsSync(fullPath);
     if (!exists) {
       try {

@@ -10,24 +10,31 @@ function resolveProjectRoot(projectRoot) {
   return normalizeString(projectRoot) || process.cwd();
 }
 
+function isPathWithin(root, target) {
+  const relative = path.relative(root, target);
+  if (relative === "") return true;
+  return !relative.startsWith("..") && !path.isAbsolute(relative);
+}
+
 export function checkDataFiles(projectRoot, entries) {
-  const root = resolveProjectRoot(projectRoot);
+  const root = path.resolve(resolveProjectRoot(projectRoot));
   const safeEntries = Array.isArray(entries) ? entries : [];
   return safeEntries.map((entry) => {
     const filePath = normalizeString(entry?.path);
-    const fullPath = filePath ? path.join(root, filePath) : "";
-    const exists = Boolean(filePath) && existsSync(fullPath);
+    const fullPath = filePath ? path.resolve(root, filePath) : "";
+    const safePath = Boolean(filePath) && isPathWithin(root, fullPath);
+    const exists = safePath && existsSync(fullPath);
     return {
       id: normalizeString(entry?.id),
       path: filePath,
       exists,
-      valid: isValidDataFileEntry(entry)
+      valid: isValidDataFileEntry(entry) && safePath
     };
   });
 }
 
 export function ensureDataFiles(projectRoot, entries) {
-  const root = resolveProjectRoot(projectRoot);
+  const root = path.resolve(resolveProjectRoot(projectRoot));
   const safeEntries = Array.isArray(entries) ? entries : [];
   return safeEntries.map((entry) => {
     if (!isValidDataFileEntry(entry)) {
@@ -41,7 +48,16 @@ export function ensureDataFiles(projectRoot, entries) {
     }
 
     const filePath = normalizeString(entry.path);
-    const fullPath = path.join(root, filePath);
+    const fullPath = path.resolve(root, filePath);
+    if (!isPathWithin(root, fullPath)) {
+      return {
+        id: entry.id,
+        path: filePath,
+        created: false,
+        exists: false,
+        error: "Datendatei liegt außerhalb des Projekts."
+      };
+    }
     const exists = existsSync(fullPath);
 
     if (!exists) {

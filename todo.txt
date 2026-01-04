@@ -7,6 +7,7 @@
 - [x] Datenmodelle für Profile, Archiv, Logs in JSON/TXT definieren; Ablagepfade strikt trennen (Systemlogik vs. Konfiguration vs. Nutzerdaten) und dokumentieren.
 - [x] Farb-Themes mit geprüftem Kontrast ausbauen, Schriftgrößen per Regler anpassbar halten, responsive Regeln und Fokus-Stylen festschreiben.
 - [x] Startroutine schärfen: Abhängigkeitsprüfung und -installation, Ordner automatisch anlegen (System/Config/Daten), automatische Tests/Linting ausführen, Fortschritt und Fehler in einfacher Sprache anzeigen.
+- [x] Pfad-Validierung ergänzt: Startroutine blockiert Ordner/Dateien außerhalb des Projektordners (Schutz vor Traversal).
 - [ ] Genre-Zufallsgenerator planen (Mengenmodi 4–20, Duplikate vermeiden, Log schreiben, Zwischenablage und Songfeld direkt füllen, Button „in Song übernehmen“).
 - [ ] Autosave/Backup-Konzept (alle 5 Minuten, bei Logout) mit Statusbalken, Zeitstempel, manuellem Restore-Knopf und Validierung der gespeicherten Dateien ausarbeiten.
 - [ ] Test- und Linting-Pipeline weiter ausbauen (z. B. Barrierefreiheits-, Stil- und Integrationsprüfungen); Debug/Logging-Modus mit Umschalter und gefilterten Logs weiter vertiefen.

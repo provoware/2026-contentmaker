@@ -23,4 +23,30 @@ describe("data files", () => {
 
     rmSync(projectRoot, { recursive: true, force: true });
   });
+
+  test("verhindert datendateien außerhalb des projekts", () => {
+    const projectRoot = mkdtempSync(path.join(os.tmpdir(), "contentmaker-data-"));
+    const outsidePath = path.resolve(projectRoot, "..", "contentmaker-outside.json");
+    const entries = [
+      {
+        id: "unsafe",
+        path: "../contentmaker-outside.json",
+        format: "json",
+        description: "Soll außerhalb liegen.",
+        template: { ok: true }
+      }
+    ];
+    const results = ensureDataFiles(projectRoot, entries);
+    expect(results).toEqual([
+      {
+        id: "unsafe",
+        path: "../contentmaker-outside.json",
+        created: false,
+        exists: false,
+        error: "Datendatei liegt außerhalb des Projekts."
+      }
+    ]);
+    expect(() => readFileSync(outsidePath, "utf8")).toThrow();
+    rmSync(projectRoot, { recursive: true, force: true });
+  });
 });
