@@ -1,6 +1,7 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { startConfig } from "../../config/start.config.js";
+import { getDataFileEntries } from "../../config/data-models.js";
 import { createStartLogger } from "./logger.js";
 import {
   checkDirectories,
@@ -10,6 +11,7 @@ import {
   installDependencies,
   runTests
 } from "./tasks.js";
+import { checkDataFiles, ensureDataFiles } from "./dataFiles.js";
 
 export async function runStart({ projectRoot = process.cwd() } = {}) {
   const logger = createStartLogger({
@@ -68,6 +70,47 @@ export async function runStart({ projectRoot = process.cwd() } = {}) {
         if (!result.dir) return "FEHLER: Ungültiger Ordnername";
         if (result.created) return `ERSTELLT: ${result.dir}`;
         return result.exists ? `OK: ${result.dir}` : `FEHLER: ${result.dir}`;
+      })
+      .join("\n")
+  );
+
+  const dataEntries = getDataFileEntries();
+  const dataChecks = checkDataFiles(projectRoot, dataEntries);
+  dataChecks.forEach((check) => {
+    if (!check.path) {
+      logger.log("Datenmodell-Eintrag ist ungültig.");
+      return;
+    }
+    logger.log(check.exists ? `Datendatei ok: ${check.path}` : `Datendatei fehlt: ${check.path}`);
+  });
+  logger.report(
+    "Datenmodelle",
+    dataChecks
+      .map((check) => {
+        if (!check.path) return "FEHLER: Ungültiger Eintrag";
+        const status = check.exists ? "OK" : "FEHLT";
+        const valid = check.valid ? "gültig" : "ungültig";
+        return `${status}: ${check.path} (${valid})`;
+      })
+      .join("\n")
+  );
+
+  const dataResults = ensureDataFiles(projectRoot, dataEntries);
+  dataResults.forEach((result) => {
+    if (!result.path) return;
+    if (result.created) {
+      logger.log(`Datendatei erstellt: ${result.path}`);
+    } else if (!result.exists) {
+      logger.log(`Datendatei konnte nicht erstellt werden: ${result.path}`);
+    }
+  });
+  logger.report(
+    "Datenmodelle-Erstellung",
+    dataResults
+      .map((result) => {
+        if (!result.path) return "FEHLER: Ungültiger Eintrag";
+        if (result.created) return `ERSTELLT: ${result.path}`;
+        return result.exists ? `OK: ${result.path}` : `FEHLER: ${result.path}`;
       })
       .join("\n")
   );

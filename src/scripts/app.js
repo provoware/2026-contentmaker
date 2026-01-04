@@ -1,8 +1,30 @@
 import { createLogger } from "./logger.js";
-import { applyTheme, getDefaultThemeId, populateThemeSelect } from "./themeManager.js";
+import {
+  applyTheme,
+  getDefaultThemeId,
+  getThemeMeta,
+  populateThemeSelect
+} from "./themeManager.js";
 import { setFontScale, toggleTextInvert } from "./accessibility.js";
 
-function bindThemeSelect(select, logger) {
+function updateThemeSummary(summaryElement, themeId, logger) {
+  if (!(summaryElement instanceof HTMLElement)) {
+    logger?.warn("Theme-Beschreibung fehlt oder ist ungültig.");
+    return false;
+  }
+  const meta = getThemeMeta(themeId);
+  if (!meta) {
+    summaryElement.textContent = "Kein gültiges Theme gefunden.";
+    summaryElement.dataset.themeId = "";
+    logger?.warn("Theme-Beschreibung konnte nicht geladen werden.");
+    return false;
+  }
+  summaryElement.textContent = `${meta.label}: ${meta.description}`;
+  summaryElement.dataset.themeId = meta.id;
+  return true;
+}
+
+function bindThemeSelect(select, summaryElement, logger) {
   if (!(select instanceof HTMLSelectElement)) {
     logger?.error("Theme-Auswahl (Farbschema) fehlt oder ist ungültig.");
     return false;
@@ -16,15 +38,17 @@ function bindThemeSelect(select, logger) {
   select.value = defaultId;
   const applied = applyTheme(defaultId);
   logger[applied ? "info" : "warn"]("Start-Theme angewendet.");
+  updateThemeSummary(summaryElement, defaultId, logger);
 
   select.addEventListener("change", (event) => {
-    const nextId = event.target?.value;
+    const nextId = event.target instanceof HTMLSelectElement ? event.target.value : "";
     const applied = applyTheme(nextId);
     if (applied) {
       logger.info(`Theme "${nextId}" aktiv.`);
     } else {
       logger.warn("Theme konnte nicht angewendet werden.");
     }
+    updateThemeSummary(summaryElement, nextId, logger);
   });
   return true;
 }
@@ -93,12 +117,13 @@ function init() {
   logger.info("Startroutine läuft: prüfe Eingaben und Layout.");
 
   const select = document.querySelector("#theme-select");
+  const themeSummary = document.querySelector("#theme-summary");
   const fontSlider = document.querySelector("#font-slider");
   const invertToggle = document.querySelector("#invert-toggle");
   const debugToggle = document.querySelector("#debug-toggle");
 
   const results = [
-    bindThemeSelect(select, logger),
+    bindThemeSelect(select, themeSummary, logger),
     bindFontSlider(fontSlider, logger),
     bindInvertButton(invertToggle, logger),
     bindDebugToggle(debugToggle, logger)

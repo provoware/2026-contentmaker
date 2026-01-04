@@ -19,6 +19,12 @@ export function getValidThemes() {
   return themes.filter((theme) => isValidTheme(theme));
 }
 
+export function getThemeMeta(themeId) {
+  const theme = typeof themeId === "string" ? getThemeById(themeId) : null;
+  if (!isValidTheme(theme)) return null;
+  return { id: theme.id, label: theme.label, description: theme.description };
+}
+
 export function applyTheme(themeId, target = document.documentElement) {
   const theme = typeof themeId === "string" ? getThemeById(themeId) : null;
   if (!isValidTheme(theme)) return false;

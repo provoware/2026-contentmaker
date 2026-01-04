@@ -7,16 +7,22 @@ function normalizeString(value, fallback) {
   return fallback;
 }
 
+function resolveLogger(logger) {
+  if (logger && typeof logger.log === "function") return logger;
+  return { log: () => false };
+}
+
 function runCommand(command, args, cwd, logger) {
   return new Promise((resolve) => {
     const safeCommand = normalizeString(command, "");
     const safeArgs = Array.isArray(args) ? args : [];
+    const safeLogger = resolveLogger(logger);
     if (!safeCommand) {
       resolve({ code: 1, stdout: "", stderr: "Ungültiger Befehl" });
       return;
     }
 
-    logger.log(`Starte: ${safeCommand} ${safeArgs.join(" ")}`);
+    safeLogger.log(`Starte: ${safeCommand} ${safeArgs.join(" ")}`);
     const processRef = spawn(safeCommand, safeArgs, { cwd, shell: false, stdio: "pipe" });
     let stdout = "";
     let stderr = "";
@@ -24,12 +30,22 @@ function runCommand(command, args, cwd, logger) {
     processRef.stdout.on("data", (chunk) => {
       const text = chunk.toString();
       stdout += text;
-      logger.log(text.trim());
+      if (text.trim().length > 0) {
+        safeLogger.log(text.trim());
+      }
     });
     processRef.stderr.on("data", (chunk) => {
       const text = chunk.toString();
       stderr += text;
-      logger.log(text.trim());
+      if (text.trim().length > 0) {
+        safeLogger.log(text.trim());
+      }
+    });
+
+    processRef.on("error", (error) => {
+      const message = error instanceof Error ? error.message : String(error);
+      stderr += message;
+      resolve({ code: 1, stdout, stderr: message });
     });
 
     processRef.on("close", (code) => resolve({ code: code ?? 0, stdout, stderr }));

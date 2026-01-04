@@ -12,6 +12,5 @@ Ziele (bereinigt, noch offen):
 - Vorschau-Spalte: Gesamttext + Meta, Speichern ins Archiv per Buttons/Dialogs.
 - Einstellungen: eigenes Tab, viele Optionen, robustes Zustands-Handling.
 - Autosave/Backup: alle 5 Minuten + beim Logout, Restore-Button, Validierung.
-- Datenformate: JSON/TXT klar trennen (System/Config/Nutzerdaten).
 - Fehlertoleranz: transparentes Fehlerhandling mit Self-Repair-Ansatz.
 - Erweiterbarkeit: pluginfähige Struktur, klare Standards, keine Überlappungen.

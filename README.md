@@ -29,6 +29,8 @@ ein (mit Uhrzeit und Ebenenfarben).
 - **Konfiguration:** `config/` enthält feste Einstellungen wie Farb-Themes und Start-Parameter.
 - **Nutzerdaten:** `data/` ist für spätere Inhalte (z. B. Profile, Archive) reserviert.
 - **Logs/Reports:** `logs/` sammelt Protokolle und Berichte für die Startroutine.
+- **Datenmodelle:** `config/data-models.js` definiert Vorlagen (Templates) für Profile, Archiv und
+  einfache Logs. Die Startroutine erzeugt fehlende Dateien automatisch in `data/`.
 
 ## Planungsdokumente
 

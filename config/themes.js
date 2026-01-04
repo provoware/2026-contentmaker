@@ -40,6 +40,34 @@ export const themes = [
       border: "#0ea5e9",
       muted: "#475569"
     }
+  },
+  {
+    id: "contrast",
+    label: "Kontrast Plus",
+    description: "Maximaler Kontrast für starke Sichtbarkeit.",
+    colors: {
+      background: "#000000",
+      surface: "#111111",
+      text: "#ffffff",
+      textInvert: "#000000",
+      accent: "#ffd400",
+      border: "#ffd400",
+      muted: "#e5e7eb"
+    }
+  },
+  {
+    id: "forest",
+    label: "Waldlicht",
+    description: "Dunkelgrün mit ruhigem Akzent.",
+    colors: {
+      background: "#041f1a",
+      surface: "#0b2f24",
+      text: "#f8fafc",
+      textInvert: "#041f1a",
+      accent: "#34d399",
+      border: "#34d399",
+      muted: "#d1fae5"
+    }
   }
 ];
 
