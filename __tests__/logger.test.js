@@ -48,4 +48,15 @@ describe("createLogger", () => {
     });
     expect(list.childElementCount).toBe(60);
   });
+
+  test("normalisiert Meldungen und Level", () => {
+    const list = document.createElement("ul");
+    const logger = createLogger(list);
+
+    logger.info({ text: "objekt" });
+
+    const item = list.firstElementChild;
+    expect(item.dataset.level).toBe("info");
+    expect(item.querySelector(".log-message").textContent).toBe("[object Object]");
+  });
 });
