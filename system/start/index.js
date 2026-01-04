@@ -5,6 +5,7 @@ import { createStartLogger } from "./logger.js";
 import {
   checkDirectories,
   checkNodeVersion,
+  ensureDirectories,
   hasNodeModules,
   installDependencies,
   runTests
@@ -48,6 +49,26 @@ export async function runStart({ projectRoot = process.cwd() } = {}) {
     "Ordner",
     dirChecks
       .map((check) => `${check.exists ? "OK" : "FEHLT"}: ${check.dir || "unbekannt"}`)
+      .join("\n")
+  );
+
+  const dirResults = ensureDirectories(projectRoot, startConfig.requiredDirs);
+  dirResults.forEach((result) => {
+    if (!result.dir) return;
+    if (result.created) {
+      logger.log(`Ordner erstellt: ${result.dir}`);
+    } else if (!result.exists) {
+      logger.log(`Ordner konnte nicht erstellt werden: ${result.dir}`);
+    }
+  });
+  logger.report(
+    "Ordner-Erstellung",
+    dirResults
+      .map((result) => {
+        if (!result.dir) return "FEHLER: Ungültiger Ordnername";
+        if (result.created) return `ERSTELLT: ${result.dir}`;
+        return result.exists ? `OK: ${result.dir}` : `FEHLER: ${result.dir}`;
+      })
       .join("\n")
   );
 

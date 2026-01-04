@@ -3,21 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Songtexter-Tool 2026 PROVOWARE Version</title>
-    <title>Contentmaker – Dashboard</title>
+    <title>Contentmaker – Steuerzentrale</title>
     <link rel="stylesheet" href="./styles/base.css" />
   </head>
   <body>
     <main aria-labelledby="app-title">
       <header>
         <p class="small-label">Barrierefrei, farbstark und laienfreundlich</p>
-        <h1 id="app-title">Songtexter-Tool 2026 PROVOWARE Version</h1>
         <h1 id="app-title">Contentmaker Steuerzentrale</h1>
+        <h2 class="subtitle">Songtexter-Tool 2026 PROVOWARE Version</h2>
         <div class="summary-box" role="status" aria-live="polite">
           <p>
-            Wähle ein Farb-Theme, stelle die Schriftgröße ein und invertiere bei Bedarf die
-            <strong>Schriftfarbe</strong> über den Button. Alle Änderungen bleiben auf den Text
-            beschränkt, Hintergründe bleiben stabil.
+            Wähle dein Farb-Theme (Farbschema), stelle die Schriftgröße ein und invertiere bei
+            Bedarf die <strong>Schriftfarbe</strong> (nur Text). Hintergründe bleiben stabil, damit
+            die Orientierung leichter fällt.
           </p>
         </div>
       </header>
@@ -29,7 +28,7 @@
             <label for="theme-select">Farb-Theme wählen</label>
             <select id="theme-select" name="theme-select" aria-describedby="theme-help"></select>
             <p id="theme-help" class="small-label">
-              Alle Themes sind kontrastgeprüft. Die aktive Auswahl wird sofort übernommen.
+              Theme (Farbschema) mit geprüftem Kontrast. Die Auswahl wird sofort aktiv.
             </p>
           </div>
 
@@ -43,24 +42,41 @@
               step="5"
               value="100"
               aria-valuetext="100 %"
+              aria-describedby="font-help"
             />
-            <p class="small-label">Feineinstellung in 5-%-Schritten.</p>
+            <p id="font-help" class="small-label">
+              Größe in 5-%-Schritten. 100 % ist Standard, 125 % ist extra groß.
+            </p>
           </div>
 
           <div>
-            <button id="invert-toggle" type="button" class="primary" aria-pressed="false">
+            <button
+              id="invert-toggle"
+              type="button"
+              class="primary"
+              aria-pressed="false"
+              aria-describedby="invert-help"
+            >
               Schriftfarben invertieren
             </button>
-            <p class="small-label">
-              Wirkung nur auf Text, Hintergründe bleiben unverändert. Ein weiterer Klick macht die
-              Änderung rückgängig.
+            <p id="invert-help" class="small-label">
+              Invertieren (umkehren) betrifft nur Textfarben. Ein zweiter Klick setzt alles zurück.
             </p>
           </div>
 
           <div>
             <label for="debug-toggle">Debug- und Logging-Modus</label>
-            <button id="debug-toggle" type="button" aria-pressed="false">Debugging aus</button>
-            <p class="small-label">Schaltet ausführliches Feedback im Statusprotokoll.</p>
+            <button
+              id="debug-toggle"
+              type="button"
+              aria-pressed="false"
+              aria-describedby="debug-help"
+            >
+              Debugging aus
+            </button>
+            <p id="debug-help" class="small-label">
+              Debugging (Fehlersuche) zeigt zusätzliche Hinweise im Protokoll.
+            </p>
           </div>
         </div>
       </section>
@@ -68,8 +84,8 @@
       <section aria-labelledby="status-heading">
         <h2 id="status-heading">Status und Live-Feedback</h2>
         <p class="small-label">
-          Alle Eingaben werden geprüft und mit klaren Rückmeldungen versehen. Für detaillierte
-          Ereignisse siehe das Debugging-Protokoll unten.
+          Alle Eingaben werden geprüft. Du bekommst klare Rückmeldungen in einfacher Sprache. Für
+          Details siehe das Protokoll unten.
         </p>
       </section>
     </main>

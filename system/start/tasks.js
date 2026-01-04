@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
 import { spawn } from "node:child_process";
 import path from "node:path";
 
@@ -57,6 +57,25 @@ export function checkDirectories(projectRoot, requiredDirs) {
     const dirName = normalizeString(dir, "");
     const exists = dirName ? existsSync(path.join(projectRoot, dirName)) : false;
     return { dir: dirName, exists };
+  });
+}
+
+export function ensureDirectories(projectRoot, requiredDirs) {
+  const safeDirs = Array.isArray(requiredDirs) ? requiredDirs : [];
+  return safeDirs.map((dir) => {
+    const dirName = normalizeString(dir, "");
+    if (!dirName) return { dir: "", created: false, exists: false };
+    const fullPath = path.join(projectRoot, dirName);
+    const exists = existsSync(fullPath);
+    if (!exists) {
+      try {
+        mkdirSync(fullPath, { recursive: true });
+        return { dir: dirName, created: true, exists: true };
+      } catch (error) {
+        return { dir: dirName, created: false, exists: false, error: String(error) };
+      }
+    }
+    return { dir: dirName, created: false, exists: true };
   });
 }
 

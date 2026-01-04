@@ -10,7 +10,6 @@ Ziele (bereinigt, noch offen):
 - Zufallsgenerator: 4–20 Auswahl, aus Archiv/Profil, ohne Duplikate, Log + Zwischenablage.
 - Song-Übernahme: Ergebnisse direkt in Genre-Feld + Button „in Song übernehmen“.
 - Vorschau-Spalte: Gesamttext + Meta, Speichern ins Archiv per Buttons/Dialogs.
-- Hilfe/Tooltips: einfache Sprache, Fachbegriffe erklären, Tastaturbedienung sicher.
 - Einstellungen: eigenes Tab, viele Optionen, robustes Zustands-Handling.
 - Autosave/Backup: alle 5 Minuten + beim Logout, Restore-Button, Validierung.
 - Datenformate: JSON/TXT klar trennen (System/Config/Nutzerdaten).
